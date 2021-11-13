@@ -1,19 +1,33 @@
-import React from 'react';
+import {useState}from 'react';
 import {BrowserRouter as Router ,Route,Switch} from 'react-router-dom';
-import Home from './screens/Home';
-import Login from './screens/Login';
-import  Register  from './screens/Register';
-function App() {
-  return (
-    <Router>
-      <Switch>
-        <Route path='/' exact component={Home}/>
-        <Route path='/login' component={Login}/>
-        <Route path='/register' component={Register}/> 
+import Home from './screens/Home/Home';
+import Auth from './screens/Auth/Auth';
+import Profile from './screens/Profile/Profile';
+import {Provider} from 'react-redux'
+import store from './redux';
+import Header from './component/Header/Header';
 
+function App() {
+
+  const [isLoading,setIsLoading]=useState<boolean>(true);
+
+  return (
+    <Provider store={store}>
+    <Router>
+      <Header setIsLoading={setIsLoading}/>
+      <Switch>
+      <Route path='/todo/:category'>
+          <Home />
+          </Route>
+      <Route path='/auth' exact >
+          <Auth isLoadingPage={isLoading}/>
+          </Route>
+     
+        
+        <Route path='/profile' component={Profile}/> 
       </Switch>
     </Router>
-    // <Home/>
+    </Provider>
   );
 }
 
